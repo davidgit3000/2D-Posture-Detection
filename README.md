@@ -24,7 +24,7 @@ pip install mediapipe opencv-python numpy
 
 2. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/davidgit3000/2D-Posture-Detection.git  
 cd 2d_pose_estimation
 ```
 
