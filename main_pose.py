@@ -2,8 +2,7 @@
 import cv2
 import numpy as np
 import os
-from posture_analysis.pose_detector import PoseDetector
-from posture_analysis.posture_analyzer import analyze_posture
+from posture_analysis import PoseDetector, analyze_posture, draw_landmarks, draw_status
 
 def process_webcam():
     """Process webcam feed for posture analysis."""
@@ -37,22 +36,8 @@ def process_webcam():
                 angles, issues = analyze_posture(keypoints)
                 
                 # Draw visualization
-                frame = detector.draw_pose(frame, keypoints)
-                
-                # Draw status
-                y_pos = 30
-                # Show angles
-                for name, value in angles.items():
-                    text = f"{name}: {value:.1f}"
-                    cv2.putText(frame, text, (10, y_pos), 
-                              cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-                    y_pos += 20
-                
-                # Show issues in red
-                for issue in issues:
-                    cv2.putText(frame, issue, (10, y_pos), 
-                              cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
-                    y_pos += 20
+                draw_landmarks(frame, keypoints)
+                frame = draw_status(frame, angles, issues)
                 
                 # Save frames periodically
                 if frame_count % 60 == 0:  # Save every 60 frames
